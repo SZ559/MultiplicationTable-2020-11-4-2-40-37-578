@@ -5,8 +5,8 @@ export class MultiplicationTable {
     if(!this.isValidInput(startNumber, endNumber)){
       return ''
     }
-    const matrix = this.generateMutiplicationMatrix(startNumber, endNumber)
-    return this.renderMutiplicationMatrix(matrix)
+    const mutiplicationMatrix = this.generateMutiplicationMatrix(startNumber, endNumber)
+    return this.renderMutiplicationMatrix(mutiplicationMatrix)
   }
 
   private isValidInput(startNumber: number, endNumber: number): boolean {
@@ -16,74 +16,37 @@ export class MultiplicationTable {
     return isValidRange && isInteger && isWithinScope
   }
 
-  // private generateMutiplicationMatrix(startNumber: number, endNumber: number): MatrixComponent[][] {
-  //   const mutiplicationMatrix : MatrixComponent[][] = []
-  //   const size = endNumber - startNumber
-  //   for(let rowIndex = size; rowIndex > -1; rowIndex --)
-  //   {
-  //     const numberInRow = endNumber - (size - rowIndex)
-  //     const rowOfMatrix: MatrixComponent[] = []
-  //     for(let columIndex = 0; columIndex <= numberInRow - startNumber; columIndex ++){
-  //       const columnNumber = startNumber + columIndex
-  //       rowOfMatrix.push(new MatrixComponent(columnNumber, numberInRow))
-  //     }
-  //     mutiplicationMatrix.push(rowOfMatrix)
-  //   }
-  //   return mutiplicationMatrix
-  // }
-  private generateMutiplicationMatrix(startNumber: number, endNumber: number): MatrixComponent[][] {
-    const mutiplicationMatrix : MatrixComponent[][] = []
+  private generateMutiplicationMatrix(startNumber: number, endNumber: number): Expression[][] {
+    const mutiplicationMatrix : Expression[][] = []
     const size = endNumber - startNumber
     for(let rowIndex = 0; rowIndex <= size; rowIndex ++)
     {
       const numberInRow = startNumber + rowIndex
-      const rowOfMatrix: MatrixComponent[] = []
+      const rowOfMatrix: Expression[] = []
       for(let columIndex = 0; columIndex <= numberInRow - startNumber; columIndex ++){
-        const columnNumber = startNumber + columIndex
-        rowOfMatrix.push(new MatrixComponent(columnNumber, numberInRow))
+        const numberInColumn = startNumber + columIndex
+        rowOfMatrix.push(new Expression(numberInColumn, numberInRow))
       }
       mutiplicationMatrix.push(rowOfMatrix)
     }
     return mutiplicationMatrix
   }
-  private renderMutiplicationMatrix(matrix: MatrixComponent[][]): string{
-    let result = ``
-    // let indexArray: number[] = []
-    // for(const row of matrix)
-    // {
-    //   row.map( (component) => {
-    //     const stringOfComponent = this.printSingleComponenet(component)
-    //     indexArray.push(stringOfComponent.length)
-    //     return stringOfComponent
-    //   }).join()
 
-    // }
-    console.log(matrix.length)
+  private renderMutiplicationMatrix(matrix: Expression[][]): string{
+    let result = ``
     const lengthListOfLastRow: number[] = []
-    matrix[matrix.length - 1].forEach((lastRowComponent) => lengthListOfLastRow.push(this.printSingleComponenet(lastRowComponent).length))
+    matrix[matrix.length - 1].forEach((lastRowExpressions) => lengthListOfLastRow.push(this.renderSingleExpression(lastRowExpressions).length))
     for(const rowList of matrix){
       for(let index = 0; index < rowList.length; index ++){
-        const stringOfComponent = this.printSingleComponenet(rowList[index])
-        result += stringOfComponent
-        result += this.generateString(lengthListOfLastRow[index] - stringOfComponent.length)
+        const stringOfExpression = this.renderSingleExpression(rowList[index])
+        result += stringOfExpression
+        result += this.generateString(lengthListOfLastRow[index] - stringOfExpression.length)
       }
       result = result.trimEnd()
       result += '\n'
     }
     result = result.trimEnd()
     return result
-  }
-
-  private generateString(amout: number): string{
-    let stringResult = ''
-    for(let i = 0; i < amout; i++){
-      stringResult += ' '
-    }
-    return stringResult
-  }
-
-  private printSingleComponenet(component: MatrixComponent): string{
-    return `${component.number1}*${component.number2}=${component.product}  `
   }
 
   private isEndNumberLargerOrEqualToStartNumber(startNumber: number, endNumber: number): boolean {
@@ -97,9 +60,23 @@ export class MultiplicationTable {
   private isInRangeOneToTenInclusive(number: number): boolean {
     return number >= 1 && number <= 10
   }
+
+  private generateString(amount: number): string{
+    let stringResult = ''
+    if(amount > 0){
+      for(let i = 0; i < amount; i++){
+        stringResult += ' '
+      }
+    }
+    return stringResult
+  }
+
+  private renderSingleExpression(expression: Expression): string{
+    return `${expression.number1}*${expression.number2}=${expression.product}  `
+  }
 }
 
-class MatrixComponent {
+class Expression {
   number1: number
   number2: number
   product: number
