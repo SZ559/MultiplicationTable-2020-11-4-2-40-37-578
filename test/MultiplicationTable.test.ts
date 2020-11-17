@@ -4,8 +4,8 @@ describe('Multiplication Table', () => {
   const table = new MultiplicationTable()
   it('should render multiplication table of (1, 1)', () => {
     // given
-    const start = 1
-    const end = 1
+    const start = 2
+    const end = 2
 
     //when
     const rendered = table.render(start, end)
@@ -58,6 +58,46 @@ describe('Multiplication Table', () => {
     const table = new MultiplicationTable()
     const start = 2.5
     const end = 2.4
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
+
+
+  it('should return an empty string when start number is not in range 1 to 10', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 1
+    const end = 2
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
+
+  it('should return an empty string when end number is not in range 1 to 10', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 2
+    const end = 11
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
+
+  it('should return an empty string when both start number and end number exceed the range', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 11
+    const end = 1
 
     //when
     const rendered = table.render(start, end)
