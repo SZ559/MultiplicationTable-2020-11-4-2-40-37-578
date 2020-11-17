@@ -26,4 +26,43 @@ describe('Multiplication Table', () => {
     //then
     expect(rendered).toBe('')
   })
+
+  it('should return an empty string when start number is not integer', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 2.5
+    const end = 2
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
+
+  it('should return an empty string when end number is not integer', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 2
+    const end = 2.4
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
+
+  it('should return an empty string when both start and end number are not integer', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 2.5
+    const end = 2.4
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
 })

@@ -8,10 +8,16 @@ export class MultiplicationTable {
   }
 
   private isValidInput(startNumber: number, endNumber: number): boolean {
-    return this.isEndNumberLargerOrEqualToStartNumber(startNumber, endNumber)
+    const isValidRange = this.isEndNumberLargerOrEqualToStartNumber(startNumber, endNumber)
+    const isInteger = this.isInteger(startNumber) && this.isInteger(endNumber)
+    return isValidRange && isInteger
   }
 
   private isEndNumberLargerOrEqualToStartNumber(startNumber: number, endNumber: number): boolean {
     return endNumber >= startNumber
+  }
+
+  private isInteger(number: number): boolean {
+    return Number.isInteger(number)
   }
 }
